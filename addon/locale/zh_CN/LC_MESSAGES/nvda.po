@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LangDetectSpeech 0.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 13:13+0100\n"
+"POT-Creation-Date: 2026-01-13 15:45+0100\n"
 "PO-Revision-Date: 2025-01-13 09:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Chinese (Simplified)\n"
@@ -15,23 +15,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 
-#. Translators: Label for the list of languages to detect. {0} is the synthesizer name.
+#. Translators: Label for the languages section. {0} is the synthesizer name.
 #: addon\globalPlugins\LangDetectSpeech.py:233
 msgid ""
-"The synthesizer \"{0}\" supports the following languages. Select all "
-"languages that should be considered for automatic detection:"
+"Languages to detect\n"
+"The synthesizer \"{0}\" supports the following languages. Select all that "
+"should be considered for automatic detection:"
 msgstr ""
+"要检测的语言\n"
 "合成器 \"{0}\" 支持以下语言。请选择所有应考虑进行自动检测的语言："
 
-#. Translators: Label for fallback language selection
-#: addon\globalPlugins\LangDetectSpeech.py:243
-msgid "Fallback language:"
-msgstr "备用语言："
-
-#. Translators: Description for fallback language
-#: addon\globalPlugins\LangDetectSpeech.py:253
-msgid "Used when the detected language is not in the list above."
-msgstr "当检测到的语言不在上述列表中时使用。"
+#. Translators: Label for fallback language selection.
+#. The description is included in the label so screen readers announce it.
+#: addon\globalPlugins\LangDetectSpeech.py:249
+msgid ""
+"Fallback language\n"
+"Used when the detected language is not in the list above:"
+msgstr ""
+"备用语言\n"
+"当检测到的语言不在上述列表中时使用："
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
@@ -51,3 +53,9 @@ msgid ""
 msgstr ""
 "一个轻量级的 NVDA 插件，可自动检测语音文本的语言并切换到相应的合成器语音。使"
 "用 fast-langdetect（基于 FastText）在 176 种语言中进行高效的离线语言检测。"
+
+#~ msgid "Languages:"
+#~ msgstr "语言："
+
+#~ msgid "Fallback language:"
+#~ msgstr "备用语言："

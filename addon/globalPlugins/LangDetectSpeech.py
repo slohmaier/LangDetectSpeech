@@ -229,37 +229,38 @@ class LangDetectSpeechSettings(SettingsPanel):
 			self._languages.append((langCode, displayName))
 
 		synthName = speech.synthDriverHandler.getSynth().name
-		# Translators: Label for the list of languages to detect. {0} is the synthesizer name.
-		languagesLabel = _('The synthesizer "{0}" supports the following languages. Select all languages that should be considered for automatic detection:').format(synthName)
+		# Translators: Label for the languages section. {0} is the synthesizer name.
+		languagesLabel = _('Languages to detect\n'
+			'The synthesizer "{0}" supports the following languages. '
+			'Select all that should be considered for automatic detection:').format(synthName)
+		langGroupSizer = wx.StaticBoxSizer(wx.VERTICAL, self, label=languagesLabel)
+		langGroupBox = langGroupSizer.GetStaticBox()
+		langGroupHelper = sHelper.addItem(gui.guiHelper.BoxSizerHelper(self, sizer=langGroupSizer))
 
-		# Create checklistbox for language selection
-		self._langListBox = sHelper.addLabeledControl(
-			languagesLabel,
-			wx.CheckListBox,
-			choices=[lang[1] for lang in self._languages]
-		)
+		# Create individual checkboxes for each language (more accessible than CheckListBox)
+		self._langCheckboxes = {}
+		for langCode, displayName in self._languages:
+			checkbox = wx.CheckBox(langGroupBox, label=displayName)
+			langGroupHelper.addItem(checkbox)
+			self._langCheckboxes[langCode] = checkbox
 
-		# Translators: Label for fallback language selection
-		fallbackLabel = _('Fallback language:')
-
-		# Create combobox for fallback language
+		# Translators: Label for fallback language selection.
+		# The description is included in the label so screen readers announce it.
+		fallbackLabel = _('Fallback language\n'
+			'Used when the detected language is not in the list above:')
 		self._fallbackChoice = sHelper.addLabeledControl(
 			fallbackLabel,
 			wx.Choice,
 			choices=[lang[1] for lang in self._languages]
 		)
 
-		# Translators: Description for fallback language
-		fallbackDescription = _('Used when the detected language is not in the list above.')
-		sHelper.addItem(wx.StaticText(self, label=fallbackDescription))
-
 		self._loadSettings()
 
 	def _loadSettings(self):
-		# Load whitelist and check appropriate items
+		# Load whitelist and check appropriate checkboxes
 		whitelist = get_whitelist()
-		for i, (langCode, _) in enumerate(self._languages):
-			self._langListBox.Check(i, langCode in whitelist)
+		for langCode, checkbox in self._langCheckboxes.items():
+			checkbox.SetValue(langCode in whitelist)
 
 		# Load fallback language
 		fallback = get_fallback()
@@ -273,10 +274,10 @@ class LangDetectSpeechSettings(SettingsPanel):
 				self._fallbackChoice.SetSelection(0)
 
 	def onSave(self):
-		# Save whitelist from checked items
+		# Save whitelist from checked checkboxes
 		newWhitelist = []
-		for i, (langCode, _) in enumerate(self._languages):
-			if self._langListBox.IsChecked(i):
+		for langCode, checkbox in self._langCheckboxes.items():
+			if checkbox.IsChecked():
 				newWhitelist.append(langCode)
 		config.conf['LangDetectSpeech']['whitelist'] = ', '.join(newWhitelist)
 

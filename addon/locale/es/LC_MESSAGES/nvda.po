@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LangDetectSpeech 0.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 13:13+0100\n"
+"POT-Creation-Date: 2026-01-13 15:45+0100\n"
 "PO-Revision-Date: 2025-01-13 09:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
@@ -15,24 +15,26 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 
-#. Translators: Label for the list of languages to detect. {0} is the synthesizer name.
+#. Translators: Label for the languages section. {0} is the synthesizer name.
 #: addon\globalPlugins\LangDetectSpeech.py:233
 msgid ""
-"The synthesizer \"{0}\" supports the following languages. Select all "
-"languages that should be considered for automatic detection:"
+"Languages to detect\n"
+"The synthesizer \"{0}\" supports the following languages. Select all that "
+"should be considered for automatic detection:"
 msgstr ""
+"Idiomas a detectar\n"
 "El sintetizador \"{0}\" admite los siguientes idiomas. Seleccione todos los "
 "idiomas que deben considerarse para la detección automática:"
 
-#. Translators: Label for fallback language selection
-#: addon\globalPlugins\LangDetectSpeech.py:243
-msgid "Fallback language:"
-msgstr "Idioma alternativo:"
-
-#. Translators: Description for fallback language
-#: addon\globalPlugins\LangDetectSpeech.py:253
-msgid "Used when the detected language is not in the list above."
-msgstr "Se utiliza cuando el idioma detectado no está en la lista anterior."
+#. Translators: Label for fallback language selection.
+#. The description is included in the label so screen readers announce it.
+#: addon\globalPlugins\LangDetectSpeech.py:249
+msgid ""
+"Fallback language\n"
+"Used when the detected language is not in the list above:"
+msgstr ""
+"Idioma alternativo\n"
+"Se utiliza cuando el idioma detectado no está en la lista anterior:"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on
@@ -54,3 +56,9 @@ msgstr ""
 "texto hablado y cambia a la voz del sintetizador correspondiente. Utiliza "
 "fast-langdetect (basado en FastText) para una detección de idiomas eficiente "
 "sin conexión en 176 idiomas."
+
+#~ msgid "Languages:"
+#~ msgstr "Idiomas:"
+
+#~ msgid "Fallback language:"
+#~ msgstr "Idioma alternativo:"
