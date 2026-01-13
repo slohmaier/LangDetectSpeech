@@ -257,20 +257,34 @@ installDir = os.path.join(nvdaAddonsDir, buildVars.addon_info["addon_name"])
 
 def installAddon(target, source, env):
 	import shutil
+	import subprocess
 
 	addonPath = str(source[0])
 	destDir = str(target[0])
 
-	# Remove existing installation if present
-	if os.path.exists(destDir):
-		shutil.rmtree(destDir)
+	# Check if NVDA is running using PowerShell
+	result = subprocess.run(
+		["powershell", "-Command", "Get-Process -Name 'nvda' -ErrorAction SilentlyContinue"],
+		capture_output=True, text=True
+	)
+	nvdaRunning = result.returncode == 0 and "nvda" in result.stdout.lower()
 
-	# Extract the addon (it's a zip file)
-	with zipfile.ZipFile(addonPath, "r") as zf:
-		zf.extractall(destDir)
+	if nvdaRunning:
+		# NVDA is running - open the addon file to trigger NVDA's installer
+		print("NVDA is running - opening addon for installation...")
+		os.startfile(addonPath)
+		print("Please confirm the installation in NVDA's dialog.")
+	else:
+		# NVDA not running - install directly to addons folder
+		if os.path.exists(destDir):
+			shutil.rmtree(destDir)
 
-	print("Installed to %s" % destDir)
-	print("Restart NVDA to load the updated addon.")
+		with zipfile.ZipFile(addonPath, "r") as zf:
+			zf.extractall(destDir)
+
+		print("Installed to %s" % destDir)
+		print("Start NVDA to load the addon.")
+
 	return 0
 
 
