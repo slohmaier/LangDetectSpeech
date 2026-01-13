@@ -25,7 +25,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description": _("""A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages."""),
 	# version
-	"addon_version": "0.5.0",
+	"addon_version": "0.6.0",
 	# Author(s)
 	"addon_author": "Stefan Lohmaier <stefan@slohmaier.de>",
 	# URL for the add-on documentation support
