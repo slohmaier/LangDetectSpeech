@@ -213,8 +213,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 
 class LangDetectSpeechSettings(SettingsPanel):
-	# Translators: Title of the settings panel
-	title = _('LangDetectSpeech')
+	# Title of the settings panel (addon name, not translated)
+	title = 'LangDetectSpeech'
 
 	def makeSettings(self, settingsSizer):
 		sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
@@ -228,9 +228,9 @@ class LangDetectSpeechSettings(SettingsPanel):
 			displayName = getLanguageDisplayName(langCode)
 			self._languages.append((langCode, displayName))
 
-		# Translators: Label for the list of languages to detect
 		synthName = speech.synthDriverHandler.getSynth().name
-		languagesLabel = _('Languages to detect for "{0}":').format(synthName)
+		# Translators: Label for the list of languages to detect. {0} is the synthesizer name.
+		languagesLabel = _('The synthesizer "{0}" supports the following languages. Select all languages that should be considered for automatic detection:').format(synthName)
 
 		# Create checklistbox for language selection
 		self._langListBox = sHelper.addLabeledControl(
@@ -248,6 +248,10 @@ class LangDetectSpeechSettings(SettingsPanel):
 			wx.Choice,
 			choices=[lang[1] for lang in self._languages]
 		)
+
+		# Translators: Description for fallback language
+		fallbackDescription = _('Used when the detected language is not in the list above.')
+		sHelper.addItem(wx.StaticText(self, label=fallbackDescription))
 
 		self._loadSettings()
 

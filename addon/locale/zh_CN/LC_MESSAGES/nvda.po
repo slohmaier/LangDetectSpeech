@@ -5,32 +5,49 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LangDetectSpeech 0.5.0\n"
-"Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
-"POT-Creation-Date: 2025-01-13 09:00+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-13 13:13+0100\n"
 "PO-Revision-Date: 2025-01-13 09:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: Chinese (Simplified)\n"
-"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 
-#. Translators: Title of the settings panel
-#: addon/globalPlugins/LangDetectSpeech.py
-msgid "LangDetectSpeech"
-msgstr "语言检测"
-
-#. Translators: Label for the list of languages to detect
-#: addon/globalPlugins/LangDetectSpeech.py
-msgid "Languages to detect for \"{0}\":"
-msgstr "为 \"{0}\" 检测的语言："
+#. Translators: Label for the list of languages to detect. {0} is the synthesizer name.
+#: addon\globalPlugins\LangDetectSpeech.py:233
+msgid ""
+"The synthesizer \"{0}\" supports the following languages. Select all "
+"languages that should be considered for automatic detection:"
+msgstr ""
+"合成器 \"{0}\" 支持以下语言。请选择所有应考虑进行自动检测的语言："
 
 #. Translators: Label for fallback language selection
-#: addon/globalPlugins/LangDetectSpeech.py
+#: addon\globalPlugins\LangDetectSpeech.py:243
 msgid "Fallback language:"
 msgstr "备用语言："
 
-#. Translators: Long description to be shown for this add-on
-#: buildVars.py
-msgid "A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages."
-msgstr "一个轻量级的 NVDA 插件，可自动检测语音文本的语言并切换到相应的合成器语音。使用 fast-langdetect（基于 FastText）在 176 种语言中进行高效的离线语言检测。"
+#. Translators: Description for fallback language
+#: addon\globalPlugins\LangDetectSpeech.py:253
+msgid "Used when the detected language is not in the list above."
+msgstr "当检测到的语言不在上述列表中时使用。"
+
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on
+#. to be shown on installation and add-on information found in Add-ons Manager.
+#: buildVars.py:23
+msgid "LangDetectSpeech"
+msgstr "语言检测"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:26
+msgid ""
+"A lightweight NVDA addon that automatically detects the language of spoken "
+"text and switches to the appropriate synthesizer voice. Uses fast-langdetect "
+"(FastText-based) for efficient offline language detection across 176 "
+"languages."
+msgstr ""
+"一个轻量级的 NVDA 插件，可自动检测语音文本的语言并切换到相应的合成器语音。使"
+"用 fast-langdetect（基于 FastText）在 176 种语言中进行高效的离线语言检测。"

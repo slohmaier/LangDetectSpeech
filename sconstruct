@@ -226,6 +226,21 @@ mergePot = env.gettextMergePotFile("${addon_name}-merge.pot", i18nFiles, **gette
 env.Alias('mergePot', mergePot)
 env.Depends(mergePot, i18nFiles)
 
+# Update all PO files from POT
+def updatePoAction(target, source, env):
+	import subprocess
+	potFile = str(source[0])
+	for dir in langDirs:
+		poFile = os.path.join(str(dir), "LC_MESSAGES", "nvda.po")
+		if os.path.exists(poFile):
+			print("Merging translations %s" % poFile)
+			subprocess.run(["msgmerge", "--update", "--backup=none", poFile, potFile], check=True)
+	return 0
+
+updatePo = env.Command("updatePo", pot, env.Action(updatePoAction, "Updating all PO files from POT"))
+env.Alias('updatePo', updatePo)
+env.AlwaysBuild(updatePo)
+
 # Generate Manifest path
 manifest = env.NVDAManifest(os.path.join("addon", "manifest.ini"), os.path.join("manifest.ini.tpl"))
 # Ensure manifest is rebuilt if buildVars is updated.
