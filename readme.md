@@ -1,11 +1,12 @@
-# LanguageIdent - NVDA Addon
+# LangDetectSpeech - NVDA Addon
 
-This NVDA addon processes all spoken text. It identifies the language If the synthesizer supports it, the matching language is used the speak the text.
+A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages.
 
 Features:
-- identify language for all spoken text in NVDA with ( https://github.com/Mimino666/langdetect)
-- change or add LangChangeCmd's with the identified language
-- Whiteliste for considered languages for language identification.
+- Lightweight and fast language detection using FastText
+- Automatic voice switching based on detected language
+- Whitelist for considered languages
+- Configurable fallback languages
 
 # Tested synthesizers
 

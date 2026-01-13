@@ -19,3 +19,4 @@ speech/
 utils/
 .vscode
 .venv
+.claude/

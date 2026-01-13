@@ -16,26 +16,26 @@ def _(arg):
 # Add-on information variables
 addon_info = {
 	# add-on Name/identifier, internal for NVDA
-	"addon_name": "LanguageIdent",
+	"addon_name": "LangDetectSpeech",
 	# Add-on summary, usually the user visible name of the addon.
 	# Translators: Summary for this add-on
 	# to be shown on installation and add-on information found in Add-ons Manager.
-	"addon_summary": _("This plugin identifies the language of any spoken text and automatically switch to the appropriate language before it is spoken with ease."),
+	"addon_summary": _("LangDetectSpeech"),
 	# Add-on description
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-	"addon_description": _("""This remarkable plugin utilizes an advanced AI model to detect the language of every spoken text and automatically switches the language to match. You have the freedom to select which languages are recognized for language identification, providing ultimate flexibility. Additionally, the plugin disregards any tags and relies solely on the AI model for accurate language detection."""),
+	"addon_description": _("""A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages."""),
 	# version
 	"addon_version": "0.4.0",
 	# Author(s)
 	"addon_author": "Stefan Lohmaier <stefan@slohmaier.de>",
 	# URL for the add-on documentation support
-	"addon_url": 'https://github.com/slohmaier/LanguageIdent',
+	"addon_url": 'https://github.com/slohmaier/LangDetectSpeech',
 	# Documentation file name
 	"addon_docFileName": "readme.html",
 	# Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
 	"addon_minimumNVDAVersion": "2021.0.0",
 	# Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
-	"addon_lastTestedNVDAVersion": '2024.1.1',
+	"addon_lastTestedNVDAVersion": '2025.3',
 	# Add-on update channel (default is None, denoting stable releases,
 	# and for development releases, use "dev".)
 	# Do not change unless you know what you are doing!
