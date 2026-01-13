@@ -18,8 +18,19 @@ addonHandler.initTranslation()
 # Configuration for settings
 config.conf.spec["LangDetectSpeech"] = {
 	'whitelist': 'string(default=\'\')',
-	'fallback': 'string(default=\'en,de\')',
+	'fallback': 'string(default=\'en\')',
 }
+
+
+def getLanguageDisplayName(langCode):
+	"""Get translated language name for display, with fallback to code."""
+	try:
+		desc = languageHandler.getLanguageDescription(langCode)
+		if desc:
+			return desc
+	except Exception:
+		pass
+	return langCode
 
 # Global variables
 synthClass = None
@@ -45,11 +56,9 @@ def get_whitelist():
 
 
 def get_fallback():
-	fallback = config.conf['LangDetectSpeech']['fallback'].strip()
-	if fallback:
-		return [i.strip().lower() for i in fallback.split(',')]
-	else:
-		return ['en']
+	"""Get fallback language code."""
+	fallback = config.conf['LangDetectSpeech']['fallback'].strip().lower()
+	return fallback if fallback else 'en'
 
 
 def updateSynthLangs():
@@ -68,8 +77,8 @@ def updateSynthLangs():
 					synthLangs[lang] = voice.language
 		except NotImplementedError:
 			synthLangs = {}
-			for lang in get_fallback():
-				synthLangs[lang] = lang
+			fallback = get_fallback()
+			synthLangs[fallback] = fallback
 
 		log.info('LANGPREDICT:\nFound voices:\n' +
 			'\n'.join(
@@ -130,11 +139,9 @@ def detectLanguage(text: str):
 
 		# Fallback to default if no match
 		if predictedLang is None:
-			# Try fallback languages
-			for fallback_lang in get_fallback():
-				if fallback_lang in synthLangs:
-					predictedLang = fallback_lang
-					break
+			fallback_lang = get_fallback()
+			if fallback_lang in synthLangs:
+				predictedLang = fallback_lang
 
 		if predictedLang is None:
 			predictedLang = defaultLang.split('_')[0].lower()
@@ -206,57 +213,76 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 
 class LangDetectSpeechSettings(SettingsPanel):
-	title = 'LangDetectSpeech'
+	# Translators: Title of the settings panel
+	title = _('LangDetectSpeech')
 
 	def makeSettings(self, settingsSizer):
 		sHelper = gui.guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 
-		# Make a title for the Settings-Pane
-		synthName = speech.synthDriverHandler.getSynth().name
-		description = _('Available languages for Synthesizer "{0}":').format(synthName)
-		sHelper.addItem(wx.StaticText(self, label=description))
-
 		# Ensure synth languages are up to date
 		updateSynthLangs()
 
-		# Create a checkbox for each language supported by the synth
-		self._langCheckboxes = []
-		for lang in synthLangs.keys():
-			checkbox = wx.CheckBox(self, label=lang)
-			sHelper.addItem(checkbox)
-			self._langCheckboxes.append(checkbox)
+		# Build list of languages with display names: [(code, displayName), ...]
+		self._languages = []
+		for langCode in sorted(synthLangs.keys()):
+			displayName = getLanguageDisplayName(langCode)
+			self._languages.append((langCode, displayName))
 
-		# Add separator
-		sHelper.addItem(wx.StaticLine(self, style=wx.LI_HORIZONTAL))
+		# Translators: Label for the list of languages to detect
+		synthName = speech.synthDriverHandler.getSynth().name
+		languagesLabel = _('Languages to detect for "{0}":').format(synthName)
 
-		# Add label for Fallback languages with a text field
-		sHelper.addItem(wx.StaticText(self, label=_('Fallback languages:')))
-		self._fallback = wx.TextCtrl(self)
-		sHelper.addItem(self._fallback)
+		# Create checklistbox for language selection
+		self._langListBox = sHelper.addLabeledControl(
+			languagesLabel,
+			wx.CheckListBox,
+			choices=[lang[1] for lang in self._languages]
+		)
+
+		# Translators: Label for fallback language selection
+		fallbackLabel = _('Fallback language:')
+
+		# Create combobox for fallback language
+		self._fallbackChoice = sHelper.addLabeledControl(
+			fallbackLabel,
+			wx.Choice,
+			choices=[lang[1] for lang in self._languages]
+		)
 
 		self._loadSettings()
 
 	def _loadSettings(self):
-		self._fallback.SetValue(config.conf['LangDetectSpeech']['fallback'])
-
-		# Check the checkbox for a language if in whitelist
+		# Load whitelist and check appropriate items
 		whitelist = get_whitelist()
-		for checkbox in self._langCheckboxes:
-			checkbox.SetValue(checkbox.GetLabel().lower() in whitelist)
+		for i, (langCode, _) in enumerate(self._languages):
+			self._langListBox.Check(i, langCode in whitelist)
+
+		# Load fallback language
+		fallback = get_fallback()
+		for i, (langCode, _) in enumerate(self._languages):
+			if langCode == fallback:
+				self._fallbackChoice.SetSelection(i)
+				break
+		else:
+			# Default to first item if not found
+			if self._languages:
+				self._fallbackChoice.SetSelection(0)
 
 	def onSave(self):
-		# Save fallback
-		config.conf['LangDetectSpeech']['fallback'] = self._fallback.GetValue()
-
-		# Create list with checked languages
+		# Save whitelist from checked items
 		newWhitelist = []
-		for checkbox in self._langCheckboxes:
-			if checkbox.GetValue():
-				newWhitelist.append(checkbox.GetLabel().lower())
-
-		# Store new checked languages
+		for i, (langCode, _) in enumerate(self._languages):
+			if self._langListBox.IsChecked(i):
+				newWhitelist.append(langCode)
 		config.conf['LangDetectSpeech']['whitelist'] = ', '.join(newWhitelist)
-		log.debug('LangDetectSpeech: Updated whitelist to: ' + str(newWhitelist))
+
+		# Save fallback language
+		selection = self._fallbackChoice.GetSelection()
+		if selection >= 0 and selection < len(self._languages):
+			config.conf['LangDetectSpeech']['fallback'] = self._languages[selection][0]
+
+		log.debug('LangDetectSpeech: Updated settings - whitelist: {0}, fallback: {1}'.format(
+			newWhitelist, config.conf['LangDetectSpeech']['fallback']))
 
 	def onPanelActivated(self):
 		self._loadSettings()

@@ -20,3 +20,5 @@ utils/
 .vscode
 .venv
 .claude/
+tmpclaude-*
+nul
