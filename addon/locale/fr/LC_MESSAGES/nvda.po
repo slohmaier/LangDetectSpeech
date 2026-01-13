@@ -1,4 +1,4 @@
-# German translation for LangDetectSpeech NVDA Add-on
+# French translation for LangDetectSpeech NVDA Add-on
 # Copyright (C) 2025 Stefan Lohmaier
 # This file is distributed under the same license as the LangDetectSpeech package.
 #
@@ -8,9 +8,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
 "POT-Creation-Date: 2025-01-13 09:00+0100\n"
 "PO-Revision-Date: 2025-01-13 09:00+0100\n"
-"Last-Translator: Stefan Lohmaier <stefan@slohmaier.de>\n"
-"Language-Team: German\n"
-"Language: de\n"
+"Last-Translator: \n"
+"Language-Team: French\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,19 +18,19 @@ msgstr ""
 #. Translators: Title of the settings panel
 #: addon/globalPlugins/LangDetectSpeech.py
 msgid "LangDetectSpeech"
-msgstr "Spracherkennung"
+msgstr "Détection de langue"
 
 #. Translators: Label for the list of languages to detect
 #: addon/globalPlugins/LangDetectSpeech.py
 msgid "Languages to detect for \"{0}\":"
-msgstr "Zu erkennende Sprachen für \"{0}\":"
+msgstr "Langues à détecter pour \"{0}\" :"
 
 #. Translators: Label for fallback language selection
 #: addon/globalPlugins/LangDetectSpeech.py
 msgid "Fallback language:"
-msgstr "Ersatzsprache:"
+msgstr "Langue de secours :"
 
 #. Translators: Long description to be shown for this add-on
 #: buildVars.py
 msgid "A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages."
-msgstr "Eine leichtgewichtige NVDA-Erweiterung, die automatisch die Sprache des gesprochenen Textes erkennt und zur passenden Synthesizer-Stimme wechselt. Verwendet fast-langdetect (FastText-basiert) für effiziente Offline-Spracherkennung in 176 Sprachen."
+msgstr "Une extension NVDA légère qui détecte automatiquement la langue du texte parlé et bascule vers la voix de synthèse appropriée. Utilise fast-langdetect (basé sur FastText) pour une détection linguistique hors ligne efficace dans 176 langues."
