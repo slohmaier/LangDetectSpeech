@@ -22,7 +22,7 @@ msgid ""
 "\n"
 "Do you want to enable it now?"
 msgstr ""
-"LangDetectSpeech 需要在 NVDA 语音设置中启用"自动语言切换"。\n"
+"LangDetectSpeech 需要在 NVDA 语音设置中启用「自动语言切换」。\n"
 "\n"
 "是否立即启用？"
 
