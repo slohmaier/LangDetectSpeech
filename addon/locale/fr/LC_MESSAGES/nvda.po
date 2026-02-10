@@ -6,17 +6,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LangDetectSpeech 0.5.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 15:45+0100\n"
+"POT-Creation-Date: 2026-02-10 10:25+0100\n"
 "PO-Revision-Date: 2025-01-13 09:00+0100\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
+
+#: addon\globalPlugins\LangDetectSpeech.py:212
+msgid ""
+"LangDetectSpeech requires \"Automatic language switching\" to be enabled in "
+"NVDA speech settings.\n"
+"\n"
+"Do you want to enable it now?"
+msgstr ""
+"LangDetectSpeech nécessite que \"Changement automatique de langue\" soit "
+"activé dans les paramètres vocaux de NVDA.\n"
+"\n"
+"Voulez-vous l'activer maintenant ?"
 
 #. Translators: Label for the languages section. {0} is the synthesizer name.
-#: addon\globalPlugins\LangDetectSpeech.py:233
+#: addon\globalPlugins\LangDetectSpeech.py:247
 msgid ""
 "Languages to detect\n"
 "The synthesizer \"{0}\" supports the following languages. Select all that "
@@ -28,7 +40,7 @@ msgstr ""
 
 #. Translators: Label for fallback language selection.
 #. The description is included in the label so screen readers announce it.
-#: addon\globalPlugins\LangDetectSpeech.py:249
+#: addon\globalPlugins\LangDetectSpeech.py:263
 msgid ""
 "Fallback language\n"
 "Used when the detected language is not in the list above:"
