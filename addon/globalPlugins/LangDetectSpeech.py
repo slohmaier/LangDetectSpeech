@@ -1,5 +1,6 @@
 import addonHandler
 import config
+import core
 import globalPluginHandler
 import gui
 import speech
@@ -164,30 +165,24 @@ def speechSequenceFilter(speechSequence, *args, **kwargs):
 	# Update synth languages if synthesizer changed
 	updateSynthLangs()
 
-	newSequence = []
-	hasLangCommand = False
-
-	# Check if sequence already has a LangChangeCommand
-	for item in speechSequence:
-		if isinstance(item, LangChangeCommand) and item.lang:
-			hasLangCommand = True
-			break
-
 	# Collect all text for language detection
 	text = ''
 	for item in speechSequence:
 		if isinstance(item, str):
 			text += item
 
-	# If no existing language command and we have text, detect and prepend
-	if not hasLangCommand and text.strip():
-		detectedLang = detectLanguage(text)
-		newSequence.append(LangChangeCommand(detectedLang))
-		log.debug('LangDetectSpeech: Injected LangChangeCommand({0})'.format(detectedLang))
+	if not text.strip():
+		return speechSequence
 
-	# Add original sequence
-	newSequence.extend(speechSequence)
+	detectedLang = detectLanguage(text)
 
+	# Build new sequence: prepend detected language, strip existing LangChangeCommands
+	newSequence = [LangChangeCommand(detectedLang)]
+	for item in speechSequence:
+		if not isinstance(item, LangChangeCommand):
+			newSequence.append(item)
+
+	log.debug('LangDetectSpeech: Injected LangChangeCommand({0})'.format(detectedLang))
 	log.debug('LangDetectSpeech: ' + str(newSequence))
 	return newSequence
 
@@ -202,6 +197,25 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		# Register the speech sequence filter
 		filter_speechSequence.register(speechSequenceFilter)
 		log.debug('LangDetectSpeech: Registered speech sequence filter')
+
+		# Warn if automatic language switching is disabled (after NVDA fully starts)
+		core.postNvdaStartup.register(self._checkAutoLangSwitching)
+
+	def _checkAutoLangSwitching(self):
+		core.postNvdaStartup.unregister(self._checkAutoLangSwitching)
+		if not config.conf["speech"]["autoLanguageSwitching"]:
+			wx.CallAfter(self._warnAutoLangSwitching)
+
+	def _warnAutoLangSwitching(self):
+		# Translators: Warning shown when automatic language switching is disabled in NVDA speech settings.
+		if gui.messageBox(
+			_('LangDetectSpeech requires "Automatic language switching" to be enabled '
+				'in NVDA speech settings.\n\n'
+				'Do you want to enable it now?'),
+			'LangDetectSpeech',
+			wx.YES_NO | wx.ICON_WARNING
+		) == wx.YES:
+			config.conf["speech"]["autoLanguageSwitching"] = True
 
 	def terminate(self):
 		# Unregister the speech sequence filter
