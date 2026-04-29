@@ -46,7 +46,8 @@ LangDetectSpeech is a lightweight NVDA addon that automatically detects the lang
 **`addon/globalPlugins/fast_langdetect/`** - Bundled language detection library
 - `infer.py` - LangDetector class using FastText model
 - `fasttext/` - FastText Python wrapper
-- `fasttext_pybind.cp311-win_amd64.pyd` - Compiled FastText binary (Python 3.11, Windows x64)
+- `fasttext_pybind.cp311-win32.pyd` - Compiled FastText binary (Python 3.11, 32-bit, NVDA up to 2025.x)
+- `fasttext_pybind.cp313-win_amd64.pyd` - Compiled FastText binary (Python 3.13, 64-bit, NVDA 2026.x)
 - `resources/lid.176.ftz` - Bundled lite model (~1MB, 176 languages)
 
 ### Data Flow
@@ -78,16 +79,15 @@ Stored in NVDA config under `[LangDetectSpeech]`:
 ## Bundled Dependencies
 
 The addon bundles fast-langdetect with its dependencies:
-- `fasttext_pybind.cp311-win_amd64.pyd` - Compiled for Python 3.11 (NVDA's Python version)
+- `fasttext_pybind.cp311-win32.pyd` - Python 3.11, 32-bit (NVDA up to 2025.x)
+- `fasttext_pybind.cp313-win_amd64.pyd` - Python 3.13, 64-bit (NVDA 2026.x)
 - `lid.176.ftz` - FastText lite model for offline language detection
 
-To update the .pyd for a different Python version:
+To update the .pyd for a new Python version (see also `readme.md`):
 ```powershell
-# NVDA uses 32-bit Python, so download win32 version
-pip download --no-deps --dest _deps --python-version 3.11 --platform win32 --only-binary=:all: fasttext-predict
-# Extract wheel and copy fasttext_pybind.cp311-win32.pyd to addon/globalPlugins/fast_langdetect/
-unzip _deps/fasttext_predict-*.whl -d _deps/extracted
-cp _deps/extracted/fasttext_pybind.cp311-win32.pyd addon/globalPlugins/fast_langdetect/
+pip download --no-deps --dest _deps --python-version 3.13 --platform win_amd64 --only-binary=:all: fasttext-predict
+Expand-Archive _deps\fasttext_predict-*.whl -DestinationPath _deps\extracted
+Copy-Item _deps\extracted\fasttext_pybind.cp313-win_amd64.pyd addon\globalPlugins\fast_langdetect\
 ```
 
 ## NVDA API Reference
