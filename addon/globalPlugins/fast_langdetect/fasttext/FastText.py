@@ -5,18 +5,24 @@
 # LICENSE file in the root directory of this source tree.
 
 import os
+import sys
 import glob as _glob
 import importlib.util
+import platform
 
-# Find the pyd file in parent directory
+# Find the pyd file in parent directory matching the current Python version and platform
 _parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-_pyd_pattern = os.path.join(_parent_dir, "fasttext_pybind*.pyd")
-_pyd_files = _glob.glob(_pyd_pattern)
-if not _pyd_files:
-    raise ImportError(f"Cannot find fasttext_pybind*.pyd in {_parent_dir}")
-
-# Load the pyd module directly using importlib
-_pyd_path = _pyd_files[0]
+_ver = f"cp{sys.version_info.major}{sys.version_info.minor}"
+_arch = "win_amd64" if platform.machine() == "AMD64" else "win32"
+_pyd_specific = os.path.join(_parent_dir, f"fasttext_pybind.{_ver}-{_arch}.pyd")
+if os.path.exists(_pyd_specific):
+    _pyd_path = _pyd_specific
+else:
+    # Fall back to any available pyd
+    _pyd_files = _glob.glob(os.path.join(_parent_dir, "fasttext_pybind*.pyd"))
+    if not _pyd_files:
+        raise ImportError(f"Cannot find fasttext_pybind*.pyd in {_parent_dir}")
+    _pyd_path = _pyd_files[0]
 _spec = importlib.util.spec_from_file_location("fasttext_pybind", _pyd_path)
 fasttext = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(fasttext)
