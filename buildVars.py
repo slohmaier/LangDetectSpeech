@@ -25,7 +25,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description": _("""A lightweight NVDA addon that automatically detects the language of spoken text and switches to the appropriate synthesizer voice. Uses fast-langdetect (FastText-based) for efficient offline language detection across 176 languages."""),
 	# version
-	"addon_version": "1.0.1",
+	"addon_version": "1.0.2",
 	# Author(s)
 	"addon_author": "Stefan Lohmaier <stefan@slohmaier.de>",
 	# URL for the add-on documentation support
@@ -33,7 +33,9 @@ addon_info = {
 	# Documentation file name
 	"addon_docFileName": "readme.html",
 	# Minimum NVDA version supported (e.g. "2018.3.0", minor version is optional)
-	"addon_minimumNVDAVersion": "2021.0.0",
+	# NVDA 2024.1 was the first release on Python 3.11, which our bundled
+	# fasttext_pybind.cp311-*.pyd requires.
+	"addon_minimumNVDAVersion": "2024.1.0",
 	# Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
 	"addon_lastTestedNVDAVersion": '2026.1',
 	# Add-on update channel (default is None, denoting stable releases,
